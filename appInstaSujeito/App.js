@@ -1,67 +1,97 @@
 import React, { Component } from 'react';
-import { View , Text, StyleSheet} from 'react-native';
-import {Picker} from '@react-native-picker/picker';
+import { View, Text, StyleSheet, TouchableOpacity, FlatList, Image } from 'react-native';
+import { Picker } from '@react-native-picker/picker';
+import style from './styles/styles';
+import Lista from './src/Lista';
 
 export default class appInstaSujeito extends Component {
 
-  constructor (props) {
+  constructor(props) {
     super(props);
     this.state = {
-      pizza:0,
-      pizzas: [
-        {key:1, nome: 'Strogonoff', valor: 35.90},
-        {key:2, nome: 'Calabresa', valor: 30.90},
-        {key:3, nome: 'Portuguesa', valor: 49.90},
-        {key:4, nome: 'Brigadeiro', valor: 25.90},
-        {key:5, nome: '4 queijos', valor: 70},
+      feed: [
+        {
+          id: '1',
+          nome: 'Lucas Silva',
+          descricao: 'Mais um dia de muitos bugs :)',
+          imgperfil: 'https://sujeitoprogramador.com/instareact/fotoPerfil1.png',
+          imgPublicacao: 'https://sujeitoprogramador.com/instareact/foto1.png',
+          likeada: false,
+          likers: 0
+        },
+        {
+          id: '2',
+          nome: 'Matheus',
+          descricao: 'Isso sim é ser raiz!!!!!',
+          imgperfil: 'https://sujeitoprogramador.com/instareact/fotoPerfil2.png',
+          imgPublicacao: 'https://sujeitoprogramador.com/instareact/foto2.png',
+          likeada: false,
+          likers: 0
+        },
+        {
+          id: '3',
+          nome: 'Jose Augusto',
+          descricao: 'Bora trabalhar Haha',
+          imgperfil: 'https://sujeitoprogramador.com/instareact/fotoPerfil3.png',
+          imgPublicacao: 'https://sujeitoprogramador.com/instareact/foto3.png',
+          likeada: false,
+          likers: 3
+        },
+        {
+          id: '4',
+          nome: 'Gustavo Henrique',
+          descricao: 'Isso sim que é TI!',
+          imgperfil: 'https://sujeitoprogramador.com/instareact/fotoPerfil1.png',
+          imgPublicacao: 'https://sujeitoprogramador.com/instareact/foto4.png',
+          likeada: false,
+          likers: 1
+        },
+        {
+          id: '5',
+          nome: 'Guilherme',
+          descricao: 'Boa tarde galera do insta...',
+          imgperfil: 'https://sujeitoprogramador.com/instareact/fotoPerfil2.png',
+          imgPublicacao: 'https://sujeitoprogramador.com/instareact/foto5.png',
+          likeada: false,
+          likers: 32
+        }
       ]
+
     }
   }
 
- render(){
+  render() {
 
-  let pizzasItem = this.state.pizzas.map ((v,k)=>{
-    return <Picker.item key ={k} value= {k} label= {v.nome} />
-  })
-  return (
-    <View style= {styles.container}> 
-      <Text  style= {styles.logo}> Menu pizza</Text>
+    return (
+      <View style={style.container}>
 
-      <Picker
-      selectedValue ={ this.state.pizza}
-      onValueChange={(itemValue,itemIndex)=>this.setState({pizza: itemValue})}
-      >
-      {pizzasItem}
-      </Picker>
+        <View style={style.header}>
 
-    <Text  style= {styles.pizzas}> Voce escolheu: {this.state.pizzas[this.state.pizza].nome}</Text>
-    <Text  style= {styles.pizzas}> R$: {this.state.pizzas[this.state.pizza].valor.toFixed (2)} </Text> 
- 
-    </View>
-   );
- }
+          <TouchableOpacity>
+            <Image
+              source={require('./src/img/logo.png')}
+              style={style.logo}
+            />
+          </TouchableOpacity>
+
+          <TouchableOpacity>
+            <Image
+              source={require('./src/img/send.png')}
+              style={style.send}
+            />
+          </TouchableOpacity>
+
+
+
+        </View>
+        <FlatList
+          showsHorizontalScrollIndicator={false}
+          keyExtractor={ (item) => item.id}
+          data={this.state.feed}
+          renderItem={({ item }) => <Lista data={item} />}
+        />
+      </View>
+    );
+  }
 }
 
-const styles = StyleSheet.create ({
-container: {
-  flex: 1,
-  marginTop: 20,
-
-},
-logo: {
-textAlign: 'center',
-fontSize: 28,
-color: '#000',
-fontWeight: 'bold'
-},
-
-pizzas: {
-marginTop: 15,
-fontSize:25,
-textAlign: 'center',
-color: '#000',
-
-},
-
-
-})
